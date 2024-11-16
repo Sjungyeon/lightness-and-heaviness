@@ -3,67 +3,84 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My GitHub Page</title>
+    <title>Emoji Effect</title>
     <style>
         body {
-            font-family: 'Arial', sans-serif;
-            overflow-x: hidden;
+            font-family: Arial, sans-serif;
         }
+
+        #text-container {
+            position: relative;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        #text {
+            font-size: 24px;
+        }
+
         .emoji {
-            font-size: 2em;
             position: absolute;
-            transition: top 5s ease-in-out; /* 애니메이션 시간을 5초로 설정 */
+            animation: fall 3s linear infinite;
         }
-        .hidden-text {
-            visibility: hidden;
-        }
-        .falling {
-            top: calc(100vh - 10em); /* 20줄 정도 아래 위치 */
-        }
-        .stack {
-            left: 50%;
-            transform: translateX(-50%);
+
+        @keyframes fall {
+            0% { top: 0; opacity: 1; }
+            100% { top: 100vh; opacity: 0; }
         }
     </style>
 </head>
 <body>
-    <h1 class="emoji">🪨</h1>
-    <p class="emoji">🪨 🪨 🪨 🪨 🪨</p>
-    <h1 class="hidden-text">안녕하세요, GitHub Pages!</h1>
-    <p class="hidden-text">이것은 코딩 없이 만든 웹사이트입니다.</p>
+    <div id="text-container">
+        <p id="text">이것은 예시 텍스트입니다. 두 번째 줄입니다.</p>
+    </div>
     <script>
-        let timeout;
-        const emojis = document.querySelectorAll('.emoji');
-        const texts = document.querySelectorAll('.hidden-text');
+        document.addEventListener('DOMContentLoaded', () => {
+            const textElement = document.getElementById('text');
+            const originalText = textElement.textContent;
+            let isScrolling = false;
+            let timeout;
 
-        function resetTimeout() {
-            clearTimeout(timeout);
-            timeout = setTimeout(() => {
-                emojis.forEach(emoji => {
-                    const rect = emoji.getBoundingClientRect();
-                    if (rect.top < window.innerHeight - 20 * parseFloat(getComputedStyle(emoji).fontSize)) {
-                        emoji.classList.add('falling');
-                        setTimeout(() => {
-                            emoji.classList.add('stack');
-                        }, 5000); // 떨어지는 애니메이션 후에 겹치기
-                    } else {
-                        emoji.style.display = 'none';
+            // Initial emoji replacement
+            textElement.innerHTML = originalText.replace(/./, '🪨');
+
+            // Scroll event listener
+            window.addEventListener('scroll', () => {
+                clearTimeout(timeout);
+                isScrolling = true;
+                textElement.textContent = originalText;
+
+                timeout = setTimeout(() => {
+                    isScrolling = false;
+                    if (!isScrolling) {
+                        createFallingEmoji();
                     }
-                });
-            }, 3000);
-        }
+                }, 3000);
+            });
 
-        window.addEventListener('scroll', function() {
-            clearTimeout(timeout);
-            emojis.forEach(emoji => emoji.style.display = 'none');
-            texts.forEach(text => text.style.visibility = 'visible');
+            // Function to create falling emoji
+            function createFallingEmoji() {
+                const emoji = document.createElement('div');
+                emoji.textContent = '🪨';
+                emoji.classList.add('emoji');
+                document.body.appendChild(emoji);
+
+                setTimeout(() => {
+                    emoji.remove();
+                }, 3000);
+            }
+
+            // Observer to detect text changes
+            const observer = new MutationObserver(() => {
+                const newText = textElement.textContent;
+                textElement.innerHTML = newText.replace(/./, '🪨');
+            });
+
+            observer.observe(textElement, { childList: true, characterData: true, subtree: true });
         });
-
-        window.addEventListener('mousemove', resetTimeout);
-        window.addEventListener('scroll', resetTimeout);
-        window.addEventListener('keydown', resetTimeout);
-
-        resetTimeout();
     </script>
 </body>
 </html>
