@@ -8,8 +8,6 @@
         body {
             font-family: 'Arial', sans-serif;
             overflow-x: hidden;
-            position: relative;
-            height: 200vh; /* 페이지 높이를 늘려 스크롤 가능하게 설정 */
         }
         .emoji {
             font-size: 2em;
@@ -20,7 +18,7 @@
             visibility: hidden;
         }
         .falling {
-            top: 75vh; /* 화면의 4분의 3 지점 */
+            top: calc(100vh - 20em); /* 20줄 정도 아래 위치 */
         }
         .stack {
             left: 50%;
@@ -29,10 +27,10 @@
     </style>
 </head>
 <body>
-    <h1 class="emoji" style="top: 10%;">🪨</h1>
-    <p class="emoji" style="top: 20%;">🪨 🪨 🪨 🪨 🪨</p>
-    <h1 class="hidden-text" style="top: 10%;">안녕하세요, GitHub Pages!</h1>
-    <p class="hidden-text" style="top: 20%;">이것은 코딩 없이 만든 웹사이트입니다.</p>
+    <h1 class="emoji">🪨</h1>
+    <p class="emoji">🪨 🪨 🪨 🪨 🪨</p>
+    <h1 class="hidden-text">안녕하세요, GitHub Pages!</h1>
+    <p class="hidden-text">이것은 코딩 없이 만든 웹사이트입니다.</p>
     <script>
         let timeout;
         const emojis = document.querySelectorAll('.emoji');
@@ -42,10 +40,15 @@
             clearTimeout(timeout);
             timeout = setTimeout(() => {
                 emojis.forEach(emoji => {
-                    emoji.classList.add('falling');
-                    setTimeout(() => {
-                        emoji.classList.add('stack');
-                    }, 5000); // 떨어지는 애니메이션 후에 겹치기
+                    const rect = emoji.getBoundingClientRect();
+                    if (rect.top < window.innerHeight - 20 * parseFloat(getComputedStyle(emoji).fontSize)) {
+                        emoji.classList.add('falling');
+                        setTimeout(() => {
+                            emoji.classList.add('stack');
+                        }, 5000); // 떨어지는 애니메이션 후에 겹치기
+                    } else {
+                        emoji.style.display = 'none';
+                    }
                 });
             }, 3000);
         }
