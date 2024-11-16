@@ -11,6 +11,7 @@
             padding: 0;
             background-color: #ffffff; /* 배경을 흰색으로 설정 */
             color: #333;
+            height: 500vh; /* 배경을 세로로 다섯 배 더 길게 설정 */
         }
         .container {
             max-width: 800px;
@@ -55,7 +56,7 @@
 
             const moveEmojiDown = () => {
                 textElement.classList.add('emoji');
-                textElement.style.transform = 'translateY(300px)'; /* 세 배 더 이동 */
+                textElement.style.transform = 'translateY(600px)'; /* 두 배 더 이동 */
             };
 
             let inactivityTimeout;
