@@ -21,14 +21,14 @@
             color: blue; /* 텍스트 색상을 파란색으로 설정 */
         }
 
-        .emoji {
+        .falling-emoji {
             position: absolute;
-            animation: fall 3s linear infinite;
+            animation: fall 3s linear forwards;
         }
 
         @keyframes fall {
-            0% { top: 0; opacity: 1; }
-            100% { top: 100vh; opacity: 0; }
+            0% { top: 0; }
+            100% { top: calc(100vh - 24px); } /* 화면 안에서 멈추도록 설정 */
         }
     </style>
 </head>
@@ -38,7 +38,7 @@
         document.addEventListener('DOMContentLoaded', () => {
             const textElement = document.getElementById('text');
             const originalText = textElement.textContent;
-            let isScrolling = false;
+            let isInteracting = false;
             let timeout;
 
             // Function to replace text with emojis
@@ -53,12 +53,12 @@
             const showOriginalText = () => {
                 textElement.textContent = originalText;
                 clearTimeout(timeout);
-                isScrolling = true;
+                isInteracting = true;
             };
 
             const showEmojiText = () => {
                 textElement.textContent = replaceTextWithEmoji(originalText);
-                isScrolling = false;
+                isInteracting = false;
                 startInactivityTimer();
             };
 
@@ -69,27 +69,11 @@
 
             // Function to create falling emoji
             const createFallingEmoji = () => {
-                const emoji = document.createElement('div');
-                emoji.textContent = '🪨';
-                emoji.classList.add('emoji');
-                document.body.appendChild(emoji);
-
-                setTimeout(() => {
-                    emoji.remove();
-                }, 3000);
-            };
-
-            // Inactivity timer
-            const startInactivityTimer = () => {
-                timeout = setTimeout(() => {
-                    if (!isScrolling) {
-                        createFallingEmoji();
-                    }
-                }, 3000);
-            };
-
-            startInactivityTimer();
-        });
-    </script>
-</body>
-</html>
+                const emojiText = textElement.textContent;
+                const emojiContainer = document.createElement('div');
+                emojiContainer.style.position = 'relative';
+                emojiContainer.style.width = '100%';
+                emojiContainer.style.height = '24px';
+                emojiContainer.style.display = 'flex';
+                emojiContainer.style.justifyContent = 'center';
+                emojiContainer.style.align
