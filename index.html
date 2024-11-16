@@ -3,97 +3,76 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Emoji Effect</title>
+    <title>Emoji Transformation</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
             margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+            color: #333;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             text-align: center;
-            overflow: hidden; /* 스크롤바 숨기기 */
         }
-
-        #text {
-            font-size: 24px;
-            color: blue; /* 텍스트 색상을 파란색으로 설정 */
-            position: relative;
+        .text {
+            font-size: 1.5em;
+            line-height: 1.6;
         }
-
-        .falling {
-            position: absolute;
-            animation: fall 3s linear forwards;
+        .highlight {
+            color: #FF5733;
+            font-weight: bold;
         }
-
-        @keyframes fall {
-            0% { top: 0; }
-            100% { top: 80vh; } /* 화면 안에서 보이는 위치에 멈추도록 설정 */
-        }
-
-        .rising {
-            animation: rise 6s linear infinite alternate;
-        }
-
-        @keyframes rise {
-            0% { transform: translateY(0); }
-            100% { transform: translateY(-40vh); }
+        .emoji {
+            display: inline-block;
+            transition: transform 3s ease-in-out;
         }
     </style>
 </head>
 <body>
-    <p id="text">호랑이</p>
+    <div class="container">
+        <p id="text" class="text">호랑이</p>
+    </div>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const textElement = document.getElementById('text');
             const originalText = textElement.textContent;
-            let isInteracting = false;
-            let timeout;
+            const emojiText = '🪨'.repeat(originalText.length);
 
-            // Function to replace text with emojis
-            const replaceTextWithEmoji = (text) => {
-                return text.replace(/./g, '🪨');
+            const convertToEmoji = () => {
+                textElement.textContent = emojiText;
             };
 
-            // Initial emoji replacement
-            textElement.textContent = replaceTextWithEmoji(originalText);
-
-            // Interaction event listeners
-            const showOriginalText = () => {
-                clearTimeout(timeout);
-                isInteracting = true;
+            const revertToText = () => {
                 textElement.textContent = originalText;
-                textElement.classList.remove('falling');
-                textElement.classList.remove('rising');
             };
 
-            const showEmojiText = () => {
-                isInteracting = false;
-                textElement.textContent = replaceTextWithEmoji(originalText);
-                startInactivityTimer();
+            const moveEmojiDown = () => {
+                textElement.classList.add('emoji');
+                textElement.style.transform = 'translateY(100px)';
             };
 
-            const startInactivityTimer = () => {
-                timeout = setTimeout(() => {
-                    if (!isInteracting) {
-                        textElement.classList.add('falling');
-                        setTimeout(() => {
-                            textElement.classList.remove('falling');
-                            textElement.classList.add('rising');
-                        }, 3000);
-                    }
-                }, 3000);
+            let inactivityTimeout;
+
+            const resetInactivityTimeout = () => {
+                clearTimeout(inactivityTimeout);
+                inactivityTimeout = setTimeout(moveEmojiDown, 3000);
             };
 
-            document.addEventListener('mousedown', showOriginalText);
-            document.addEventListener('mouseup', showEmojiText);
-            document.addEventListener('touchstart', showOriginalText);
-            document.addEventListener('touchend', showEmojiText);
+            textElement.addEventListener('touchstart', revertToText);
+            textElement.addEventListener('touchend', convertToEmoji);
 
-            startInactivityTimer();
+            document.addEventListener('touchstart', resetInactivityTimeout);
+            document.addEventListener('touchend', resetInactivityTimeout);
+
+            convertToEmoji();
+            resetInactivityTimeout();
         });
     </script>
 </body>
 </html>
-
