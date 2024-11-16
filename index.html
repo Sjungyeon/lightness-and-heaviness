@@ -7,36 +7,21 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-        }
-
-        #text-container {
-            position: relative;
-            height: 100vh;
             display: flex;
-            align-items: center;
             justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
             text-align: center;
         }
 
         #text {
             font-size: 24px;
         }
-
-        .emoji {
-            position: absolute;
-            animation: fall 3s linear infinite;
-        }
-
-        @keyframes fall {
-            0% { top: 0; opacity: 1; }
-            100% { top: 100vh; opacity: 0; }
-        }
     </style>
 </head>
 <body>
-    <div id="text-container">
-        <p id="text">이것은 예시 텍스트입니다. 두 번째 줄입니다.</p>
-    </div>
+    <p id="text">호랑이</p>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const textElement = document.getElementById('text');
@@ -44,8 +29,13 @@
             let isScrolling = false;
             let timeout;
 
+            // Function to replace text with emojis
+            const replaceTextWithEmoji = (text) => {
+                return text.replace(/./g, '🪨');
+            };
+
             // Initial emoji replacement
-            textElement.innerHTML = originalText.replace(/./, '🪨');
+            textElement.textContent = replaceTextWithEmoji(originalText);
 
             // Scroll event listener
             window.addEventListener('scroll', () => {
@@ -55,33 +45,10 @@
 
                 timeout = setTimeout(() => {
                     isScrolling = false;
-                    if (!isScrolling) {
-                        createFallingEmoji();
-                    }
-                }, 3000);
+                    textElement.textContent = replaceTextWithEmoji(originalText);
+                }, 100);
             });
-
-            // Function to create falling emoji
-            function createFallingEmoji() {
-                const emoji = document.createElement('div');
-                emoji.textContent = '🪨';
-                emoji.classList.add('emoji');
-                document.body.appendChild(emoji);
-
-                setTimeout(() => {
-                    emoji.remove();
-                }, 3000);
-            }
-
-            // Observer to detect text changes
-            const observer = new MutationObserver(() => {
-                const newText = textElement.textContent;
-                textElement.innerHTML = newText.replace(/./, '🪨');
-            });
-
-            observer.observe(textElement, { childList: true, characterData: true, subtree: true });
         });
     </script>
 </body>
 </html>
-
