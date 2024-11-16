@@ -12,7 +12,7 @@
         .emoji {
             font-size: 2em;
             position: absolute;
-            transition: top 5s ease-in-out; /* 애니메이션 속도 조정 */
+            transition: top 5s ease-in-out; /* 애니메이션 시간을 5초로 설정 */
         }
         .hidden-text {
             visibility: hidden;
@@ -43,7 +43,7 @@
                     emoji.classList.add('falling');
                     setTimeout(() => {
                         emoji.classList.add('stack');
-                    }, 5000); // 애니메이션 속도와 일치하도록 지연 시간 설정
+                    }, 5000); // 떨어지는 애니메이션 후에 겹치기
                 });
             }, 3000);
         }
@@ -56,4 +56,9 @@
 
         window.addEventListener('mousemove', resetTimeout);
         window.addEventListener('scroll', resetTimeout);
-        window.addEvent
+        window.addEventListener('keydown', resetTimeout);
+
+        resetTimeout();
+    </script>
+</body>
+</html>
