@@ -45,13 +45,19 @@
             width: 100%;
             text-align: center;
         }
+
+        .floating {
+            animation: float 1.5s linear infinite alternate;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(-50px); }
+        }
     </style>
 </head>
 <body>
-    <p id="text">무표정의 널 보곤
-내 잘못을 찾기보다
-너의 아픔을 찾는 사랑을 할래.
-</p>
+    <p id="text">호랑이</p>
     <div class="emoji-container" id="emoji-container"></div>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
@@ -90,6 +96,7 @@
                         setTimeout(() => {
                             const emojiDiv = document.createElement('div');
                             emojiDiv.textContent = textElement.textContent;
+                            emojiDiv.classList.add('floating');
                             emojiContainer.appendChild(emojiDiv);
                             textElement.classList.remove('falling');
                             textElement.textContent = replaceTextWithEmoji(originalText);
