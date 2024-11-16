@@ -46,7 +46,6 @@
             const textElement = document.getElementById('text');
             const originalText = textElement.textContent;
             const emojiText = '🪨'.repeat(originalText.length);
-            const featherText = '🪶'.repeat(originalText.length);
             let originalPosition = 0;
 
             const convertToEmoji = () => {
@@ -65,10 +64,6 @@
 
             const moveEmojiUp = () => {
                 textElement.classList.add('moving-up');
-                textElement.textContent = featherText; /* 처음 1초 동안 🪶로 표시 */
-                setTimeout(() => {
-                    textElement.textContent = emojiText; /* 다시 🪨로 변경 */
-                }, 1000);
                 textElement.style.transform = `translateY(${originalPosition - 300}px)`; /* 위로 이동 */
             };
 
