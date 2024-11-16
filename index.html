@@ -32,11 +32,11 @@
             100% { top: 90vh; } /* 화면 안에서 보이는 위치에 멈추도록 설정 */
         }
 
-        .floating {
-            animation: float 6s linear infinite alternate;
+        .rising {
+            animation: rise 6s linear infinite alternate;
         }
 
-        @keyframes float {
+        @keyframes rise {
             0% { transform: translateY(0); }
             100% { transform: translateY(-45vh); }
         }
@@ -65,7 +65,7 @@
                 isInteracting = true;
                 textElement.textContent = originalText;
                 textElement.classList.remove('falling');
-                textElement.classList.remove('floating');
+                textElement.classList.remove('rising');
             };
 
             const showEmojiText = () => {
@@ -80,10 +80,23 @@
                         textElement.classList.add('falling');
                         setTimeout(() => {
                             textElement.classList.remove('falling');
-                            textElement.classList.add('floating');
                         }, 3000);
                     }
                 }, 3000);
+            };
+
+            const handleMouseDown = () => {
+                if (textElement.classList.contains('falling')) {
+                    textElement.classList.remove('falling');
+                    textElement.classList.add('rising');
+                }
+            };
+
+            const handleMouseUp = () => {
+                if (textElement.classList.contains('rising')) {
+                    textElement.classList.remove('rising');
+                    textElement.classList.add('falling');
+                }
             };
 
             document.addEventListener('mousedown', showOriginalText);
@@ -91,9 +104,13 @@
             document.addEventListener('touchstart', showOriginalText);
             document.addEventListener('touchend', showEmojiText);
 
+            textElement.addEventListener('mousedown', handleMouseDown);
+            textElement.addEventListener('mouseup', handleMouseUp);
+            textElement.addEventListener('touchstart', handleMouseDown);
+            textElement.addEventListener('touchend', handleMouseUp);
+
             startInactivityTimer();
         });
     </script>
 </body>
 </html>
-
