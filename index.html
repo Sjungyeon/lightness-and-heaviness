@@ -8,6 +8,8 @@
         body {
             font-family: 'Arial', sans-serif;
             overflow-x: hidden;
+            position: relative;
+            height: 200vh; /* 페이지 높이를 늘려 스크롤 가능하게 설정 */
         }
         .emoji {
             font-size: 2em;
@@ -27,10 +29,10 @@
     </style>
 </head>
 <body>
-    <h1 class="emoji">🪨</h1>
-    <p class="emoji">🪨 🪨 🪨 🪨 🪨</p>
-    <h1 class="hidden-text">안녕하세요, GitHub Pages!</h1>
-    <p class="hidden-text">이것은 코딩 없이 만든 웹사이트입니다.</p>
+    <h1 class="emoji" style="top: 10%;">🪨</h1>
+    <p class="emoji" style="top: 20%;">🪨 🪨 🪨 🪨 🪨</p>
+    <h1 class="hidden-text" style="top: 10%;">안녕하세요, GitHub Pages!</h1>
+    <p class="hidden-text" style="top: 20%;">이것은 코딩 없이 만든 웹사이트입니다.</p>
     <script>
         let timeout;
         const emojis = document.querySelectorAll('.emoji');
@@ -62,4 +64,3 @@
     </script>
 </body>
 </html>
-
