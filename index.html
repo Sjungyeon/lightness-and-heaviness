@@ -29,7 +29,7 @@
 
         @keyframes fall {
             0% { top: 0; }
-            100% { top: 90vh; } /* 화면 안에서 보이는 위치에 멈추도록 설정 */
+            100% { top: 80vh; } /* 화면 안에서 보이는 위치에 멈추도록 설정 */
         }
 
         .rising {
@@ -38,7 +38,7 @@
 
         @keyframes rise {
             0% { transform: translateY(0); }
-            100% { transform: translateY(-45vh); }
+            100% { transform: translateY(-40vh); }
         }
     </style>
 </head>
@@ -80,34 +80,16 @@
                         textElement.classList.add('falling');
                         setTimeout(() => {
                             textElement.classList.remove('falling');
+                            textElement.classList.add('rising');
                         }, 3000);
                     }
                 }, 3000);
-            };
-
-            const handleMouseDown = () => {
-                if (textElement.classList.contains('falling')) {
-                    textElement.classList.remove('falling');
-                    textElement.classList.add('rising');
-                }
-            };
-
-            const handleMouseUp = () => {
-                if (textElement.classList.contains('rising')) {
-                    textElement.classList.remove('rising');
-                    textElement.classList.add('falling');
-                }
             };
 
             document.addEventListener('mousedown', showOriginalText);
             document.addEventListener('mouseup', showEmojiText);
             document.addEventListener('touchstart', showOriginalText);
             document.addEventListener('touchend', showEmojiText);
-
-            textElement.addEventListener('mousedown', handleMouseDown);
-            textElement.addEventListener('mouseup', handleMouseUp);
-            textElement.addEventListener('touchstart', handleMouseDown);
-            textElement.addEventListener('touchend', handleMouseUp);
 
             startInactivityTimer();
         });
