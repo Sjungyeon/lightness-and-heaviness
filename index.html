@@ -21,7 +21,7 @@
             text-align: center;
         }
         .text {
-            font-size: 2em;
+            font-size: 1.5em;
             line-height: 1.6;
         }
         .highlight {
@@ -30,7 +30,7 @@
         }
         .emoji {
             display: inline-block;
-            transition: transform 2s ease-in-out; /* 하강 속도를 조금 늘림 */
+            transition: transform 3.5s ease-in-out; /* 하강 속도를 조금 늘림 */
         }
         .moving-up {
             transition: transform 6s linear; /* 상승 속도를 절반으로 줄임 */
@@ -39,17 +39,14 @@
 </head>
 <body>
     <div class="container">
-        <p id="text" class="text">천천히 아껴두기.
-그 무엇도 당연하지 않아-매번 새롭게 동의받아야 하는 것.
-너에게 요구하기: 표현이 힘든 너니까. 나는 더 많은 애정을 주라는 말이 아니야. 그 내요이 궁금해. 나는 네가 나를 생각하는 방식을 말해주면 좋갰어. 나를 젛아하는 이유, 내 좋은 구석을. 그러면 나는 그렇게 나아갈수있을것만 같거든. 나를 얼마나, 이전과 달리 좋아한다는 말은 사랑스러워서 좋고, 저 구체적인 사실은 너를 더 잘 좋아하고, 내 좋은 점을 나도 보기 위해서야.
-
-</p>
+        <p id="text" class="text">호랑이</p>
     </div>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const textElement = document.getElementById('text');
             const originalText = textElement.textContent;
             const emojiText = '🪨'.repeat(originalText.length);
+            const featherText = '🪶'.repeat(originalText.length);
             let originalPosition = 0;
 
             const convertToEmoji = () => {
@@ -62,12 +59,16 @@
 
             const moveEmojiDown = () => {
                 textElement.classList.add('emoji');
-                textElement.style.transform = 'translateY(500px)'; /* 이동 길이를 세 배로 늘림 */
+                textElement.style.transform = 'translateY(300px)'; /* 이동 길이를 세 배로 늘림 */
                 originalPosition = 300; /* 원래 위치 저장 */
             };
 
             const moveEmojiUp = () => {
                 textElement.classList.add('moving-up');
+                textElement.textContent = featherText; /* 처음 1초 동안 🪶로 표시 */
+                setTimeout(() => {
+                    textElement.textContent = emojiText; /* 다시 🪨로 변경 */
+                }, 1000);
                 textElement.style.transform = `translateY(${originalPosition - 300}px)`; /* 위로 이동 */
             };
 
