@@ -13,7 +13,6 @@
             height: 100vh;
             margin: 0;
             text-align: center;
-            overflow: hidden; /* 이모지가 화면 밖으로 나가지 않도록 설정 */
         }
 
         #text {
@@ -21,14 +20,14 @@
             color: blue; /* 텍스트 색상을 파란색으로 설정 */
         }
 
-        .falling-emoji {
+        .emoji {
             position: absolute;
-            animation: fall 3s linear forwards;
+            animation: fall 3s linear infinite;
         }
 
         @keyframes fall {
-            0% { top: 0; }
-            100% { top: calc(100vh - 24px); } /* 화면 안에서 멈추도록 설정 */
+            0% { top: 0; opacity: 1; }
+            100% { top: 100vh; opacity: 0; }
         }
     </style>
 </head>
@@ -49,17 +48,36 @@
             // Initial emoji replacement
             textElement.textContent = replaceTextWithEmoji(originalText);
 
-            // Mouse and touch event listeners
+            // Interaction event listeners
             const showOriginalText = () => {
-                textElement.textContent = originalText;
                 clearTimeout(timeout);
                 isInteracting = true;
+                textElement.textContent = originalText;
             };
 
             const showEmojiText = () => {
-                textElement.textContent = replaceTextWithEmoji(originalText);
                 isInteracting = false;
+                textElement.textContent = replaceTextWithEmoji(originalText);
                 startInactivityTimer();
+            };
+
+            const startInactivityTimer = () => {
+                timeout = setTimeout(() => {
+                    if (!isInteracting) {
+                        createFallingEmoji();
+                    }
+                }, 3000);
+            };
+
+            const createFallingEmoji = () => {
+                const emoji = document.createElement('div');
+                emoji.textContent = '🪨';
+                emoji.classList.add('emoji');
+                document.body.appendChild(emoji);
+
+                setTimeout(() => {
+                    emoji.remove();
+                }, 3000);
             };
 
             document.addEventListener('mousedown', showOriginalText);
@@ -67,13 +85,8 @@
             document.addEventListener('touchstart', showOriginalText);
             document.addEventListener('touchend', showEmojiText);
 
-            // Function to create falling emoji
-            const createFallingEmoji = () => {
-                const emojiText = textElement.textContent;
-                const emojiContainer = document.createElement('div');
-                emojiContainer.style.position = 'relative';
-                emojiContainer.style.width = '100%';
-                emojiContainer.style.height = '24px';
-                emojiContainer.style.display = 'flex';
-                emojiContainer.style.justifyContent = 'center';
-                emojiContainer.style.align
+            startInactivityTimer();
+        });
+    </script>
+</body>
+</html>
