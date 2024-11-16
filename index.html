@@ -32,21 +32,27 @@
     <p class="hidden-text">이것은 코딩 없이 만든 웹사이트입니다.</p>
     <script>
         let timeout;
+        const emojis = document.querySelectorAll('.emoji');
+        const texts = document.querySelectorAll('.hidden-text');
+
+        function resetTimeout() {
+            clearTimeout(timeout);
+            timeout = setTimeout(() => {
+                emojis.forEach(emoji => emoji.classList.add('falling'));
+            }, 3000);
+        }
+
         window.addEventListener('scroll', function() {
             clearTimeout(timeout);
-            const emojis = document.querySelectorAll('.emoji');
-            const texts = document.querySelectorAll('.hidden-text');
             emojis.forEach(emoji => emoji.style.display = 'none');
             texts.forEach(text => text.style.visibility = 'visible');
         });
 
-        window.addEventListener('mousemove', function() {
-            clearTimeout(timeout);
-            timeout = setTimeout(() => {
-                const emojis = document.querySelectorAll('.emoji');
-                emojis.forEach(emoji => emoji.classList.add('falling'));
-            }, 3000);
-        });
+        window.addEventListener('mousemove', resetTimeout);
+        window.addEventListener('scroll', resetTimeout);
+        window.addEventListener('keydown', resetTimeout);
+
+        resetTimeout();
     </script>
 </body>
 </html>
