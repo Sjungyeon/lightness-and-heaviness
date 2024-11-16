@@ -82,19 +82,8 @@
             textElement.addEventListener('touchstart', revertToText);
             textElement.addEventListener('touchend', convertToEmoji);
 
-            document.addEventListener('touchstart', (event) => {
-                if (event.target === document.body) {
-                    moveEmojiUp();
-                }
-                resetInactivityTimeout();
-            });
-
-            document.addEventListener('touchend', (event) => {
-                if (event.target === document.body) {
-                    resetEmojiPosition();
-                }
-                resetInactivityTimeout();
-            });
+            textElement.addEventListener('touchstart', moveEmojiUp);
+            textElement.addEventListener('touchend', resetEmojiPosition);
 
             convertToEmoji();
             resetInactivityTimeout();
