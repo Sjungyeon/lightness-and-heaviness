@@ -13,10 +13,22 @@
             height: 100vh;
             margin: 0;
             text-align: center;
+            overflow: hidden; /* 이모지가 화면 밖으로 나가지 않도록 설정 */
         }
 
         #text {
             font-size: 24px;
+            color: blue; /* 텍스트 색상을 파란색으로 설정 */
+        }
+
+        .emoji {
+            position: absolute;
+            animation: fall 3s linear infinite;
+        }
+
+        @keyframes fall {
+            0% { top: 0; opacity: 1; }
+            100% { top: 100vh; opacity: 0; }
         }
     </style>
 </head>
@@ -37,17 +49,46 @@
             // Initial emoji replacement
             textElement.textContent = replaceTextWithEmoji(originalText);
 
-            // Scroll event listener
-            window.addEventListener('scroll', () => {
+            // Mouse and touch event listeners
+            const showOriginalText = () => {
+                textElement.textContent = originalText;
                 clearTimeout(timeout);
                 isScrolling = true;
-                textElement.textContent = originalText;
+            };
 
+            const showEmojiText = () => {
+                textElement.textContent = replaceTextWithEmoji(originalText);
+                isScrolling = false;
+                startInactivityTimer();
+            };
+
+            document.addEventListener('mousedown', showOriginalText);
+            document.addEventListener('mouseup', showEmojiText);
+            document.addEventListener('touchstart', showOriginalText);
+            document.addEventListener('touchend', showEmojiText);
+
+            // Function to create falling emoji
+            const createFallingEmoji = () => {
+                const emoji = document.createElement('div');
+                emoji.textContent = '🪨';
+                emoji.classList.add('emoji');
+                document.body.appendChild(emoji);
+
+                setTimeout(() => {
+                    emoji.remove();
+                }, 3000);
+            };
+
+            // Inactivity timer
+            const startInactivityTimer = () => {
                 timeout = setTimeout(() => {
-                    isScrolling = false;
-                    textElement.textContent = replaceTextWithEmoji(originalText);
-                }, 100);
-            });
+                    if (!isScrolling) {
+                        createFallingEmoji();
+                    }
+                }, 3000);
+            };
+
+            startInactivityTimer();
         });
     </script>
 </body>
