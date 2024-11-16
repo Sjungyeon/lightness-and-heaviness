@@ -21,7 +21,7 @@
             text-align: center;
         }
         .text {
-            font-size: 1.5em;
+            font-size: 2em;
             line-height: 1.6;
         }
         .highlight {
@@ -30,7 +30,7 @@
         }
         .emoji {
             display: inline-block;
-            transition: transform 3.5s ease-in-out; /* 하강 속도를 조금 늘림 */
+            transition: transform 3s ease-in-out; /* 하강 속도를 조금 늘림 */
         }
         .moving-up {
             transition: transform 6s linear; /* 상승 속도를 절반으로 줄임 */
@@ -39,7 +39,10 @@
 </head>
 <body>
     <div class="container">
-        <p id="text" class="text">호랑이</p>
+        <p id="text" class="text">무표정의 널 보곤
+내 잘못을 찾기보다
+너의 아픔을 찾는 사랑을 할래.
+</p>
     </div>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
@@ -58,7 +61,7 @@
 
             const moveEmojiDown = () => {
                 textElement.classList.add('emoji');
-                textElement.style.transform = 'translateY(300px)'; /* 이동 길이를 세 배로 늘림 */
+                textElement.style.transform = 'translateY(500px)'; /* 이동 길이를 세 배로 늘림 */
                 originalPosition = 300; /* 원래 위치 저장 */
             };
 
