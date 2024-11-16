@@ -32,37 +32,21 @@
             100% { top: 90vh; } /* 화면 안에서 보이는 위치에 쌓이도록 설정 */
         }
 
-        .emoji-container {
-            position: absolute;
-            bottom: 0;
-            width: 100%;
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
-
-        .emoji-container div {
-            width: 100%;
-            text-align: center;
-        }
-
         .floating {
-            animation: float 1.5s linear infinite alternate;
+            animation: float 6s linear infinite alternate;
         }
 
         @keyframes float {
             0% { transform: translateY(0); }
-            100% { transform: translateY(-50px); }
+            100% { transform: translateY(-45vh); }
         }
     </style>
 </head>
 <body>
     <p id="text">호랑이</p>
-    <div class="emoji-container" id="emoji-container"></div>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const textElement = document.getElementById('text');
-            const emojiContainer = document.getElementById('emoji-container');
             const originalText = textElement.textContent;
             let isInteracting = false;
             let timeout;
@@ -81,6 +65,7 @@
                 isInteracting = true;
                 textElement.textContent = originalText;
                 textElement.classList.remove('falling');
+                textElement.classList.remove('floating');
             };
 
             const showEmojiText = () => {
@@ -94,12 +79,8 @@
                     if (!isInteracting) {
                         textElement.classList.add('falling');
                         setTimeout(() => {
-                            const emojiDiv = document.createElement('div');
-                            emojiDiv.textContent = textElement.textContent;
-                            emojiDiv.classList.add('floating');
-                            emojiContainer.appendChild(emojiDiv);
                             textElement.classList.remove('falling');
-                            textElement.textContent = replaceTextWithEmoji(originalText);
+                            textElement.classList.add('floating');
                         }, 3000);
                     }
                 }, 3000);
