@@ -23,20 +23,37 @@
         }
 
         .falling {
+            position: absolute;
             animation: fall 3s linear forwards;
         }
 
         @keyframes fall {
             0% { top: 0; }
-            100% { top: 100vh; }
+            100% { top: 90vh; } /* 화면 안에서 보이는 위치에 쌓이도록 설정 */
+        }
+
+        .emoji-container {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .emoji-container div {
+            width: 100%;
+            text-align: center;
         }
     </style>
 </head>
 <body>
     <p id="text">호랑이</p>
+    <div class="emoji-container" id="emoji-container"></div>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const textElement = document.getElementById('text');
+            const emojiContainer = document.getElementById('emoji-container');
             const originalText = textElement.textContent;
             let isInteracting = false;
             let timeout;
@@ -67,6 +84,13 @@
                 timeout = setTimeout(() => {
                     if (!isInteracting) {
                         textElement.classList.add('falling');
+                        setTimeout(() => {
+                            const emojiDiv = document.createElement('div');
+                            emojiDiv.textContent = textElement.textContent;
+                            emojiContainer.appendChild(emojiDiv);
+                            textElement.classList.remove('falling');
+                            textElement.textContent = replaceTextWithEmoji(originalText);
+                        }, 3000);
                     }
                 }, 3000);
             };
