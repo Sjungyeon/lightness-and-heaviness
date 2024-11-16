@@ -7,12 +7,21 @@
     <style>
         body {
             font-family: 'Arial', sans-serif;
+            overflow-x: hidden;
+        }
+        .emoji {
+            font-size: 2em;
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            transition: top 2s ease-in-out;
         }
         .hidden-text {
             visibility: hidden;
         }
-        .emoji {
-            font-size: 2em;
+        .falling {
+            top: 90vh;
         }
     </style>
 </head>
@@ -22,11 +31,21 @@
     <h1 class="hidden-text">안녕하세요, GitHub Pages!</h1>
     <p class="hidden-text">이것은 코딩 없이 만든 웹사이트입니다.</p>
     <script>
+        let timeout;
         window.addEventListener('scroll', function() {
+            clearTimeout(timeout);
             const emojis = document.querySelectorAll('.emoji');
             const texts = document.querySelectorAll('.hidden-text');
             emojis.forEach(emoji => emoji.style.display = 'none');
             texts.forEach(text => text.style.visibility = 'visible');
+        });
+
+        window.addEventListener('mousemove', function() {
+            clearTimeout(timeout);
+            timeout = setTimeout(() => {
+                const emojis = document.querySelectorAll('.emoji');
+                emojis.forEach(emoji => emoji.classList.add('falling'));
+            }, 3000);
         });
     </script>
 </body>
