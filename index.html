@@ -9,9 +9,8 @@
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #ffffff; /* 배경을 흰색으로 설정 */
+            background-color: #f0f0f0;
             color: #333;
-            height: 500vh; /* 배경을 세로로 다섯 배 더 길게 설정 */
         }
         .container {
             max-width: 800px;
@@ -32,7 +31,6 @@
         .emoji {
             display: inline-block;
             transition: transform 3s ease-in-out;
-            font-size: 2em; /* 이모지 크기를 2포인트 더 키움 */
         }
     </style>
 </head>
@@ -56,7 +54,7 @@
 
             const moveEmojiDown = () => {
                 textElement.classList.add('emoji');
-                textElement.style.transform = 'translateY(600px)'; /* 두 배 더 이동 */
+                textElement.style.transform = 'translateY(100px)';
             };
 
             let inactivityTimeout;
