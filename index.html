@@ -13,6 +13,7 @@
             height: 100vh;
             margin: 0;
             text-align: center;
+            overflow: hidden; /* 이모지가 화면 밖으로 나가지 않도록 설정 */
         }
 
         #text {
@@ -20,14 +21,14 @@
             color: blue; /* 텍스트 색상을 파란색으로 설정 */
         }
 
-        .emoji {
+        .falling-emoji {
             position: absolute;
             animation: fall 3s linear infinite;
         }
 
         @keyframes fall {
             0% { top: 0; opacity: 1; }
-            100% { top: 100vh; opacity: 0; }
+            100% { top: 80vh; opacity: 0; } /* 이모지가 조금 위쪽에서 쌓이도록 설정 */
         }
     </style>
 </head>
@@ -70,13 +71,14 @@
             };
 
             const createFallingEmoji = () => {
-                const emoji = document.createElement('div');
-                emoji.textContent = '🪨';
-                emoji.classList.add('emoji');
-                document.body.appendChild(emoji);
+                const emojiText = replaceTextWithEmoji(originalText);
+                const emojiElement = document.createElement('div');
+                emojiElement.textContent = emojiText;
+                emojiElement.classList.add('falling-emoji');
+                document.body.appendChild(emojiElement);
 
                 setTimeout(() => {
-                    emoji.remove();
+                    emojiElement.remove();
                 }, 3000);
             };
 
