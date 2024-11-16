@@ -21,7 +21,7 @@
             text-align: center;
         }
         .text {
-            font-size: 2em;
+            font-size: 1.5em;
             line-height: 1.6;
         }
         .highlight {
@@ -31,6 +31,9 @@
         .emoji {
             display: inline-block;
             transition: transform 3s ease-in-out;
+        }
+        .moving-up {
+            transition: transform 6s linear; /* 위로 이동 시 속도를 절반으로 설정 */
         }
     </style>
 </head>
@@ -43,6 +46,7 @@
             const textElement = document.getElementById('text');
             const originalText = textElement.textContent;
             const emojiText = '🪨'.repeat(originalText.length);
+            let originalPosition = 0;
 
             const convertToEmoji = () => {
                 textElement.textContent = emojiText;
@@ -54,7 +58,18 @@
 
             const moveEmojiDown = () => {
                 textElement.classList.add('emoji');
-                textElement.style.transform = 'translateY(500px)'; /* 이동 길이를 세 배로 늘림 */
+                textElement.style.transform = 'translateY(300px)'; /* 이동 길이를 세 배로 늘림 */
+                originalPosition = 300; /* 원래 위치 저장 */
+            };
+
+            const moveEmojiUp = () => {
+                textElement.classList.add('moving-up');
+                textElement.style.transform = `translateY(${originalPosition - 300}px)`; /* 위로 이동 */
+            };
+
+            const resetEmojiPosition = () => {
+                textElement.classList.remove('moving-up');
+                textElement.style.transform = `translateY(${originalPosition}px)`; /* 원래 위치로 복귀 */
             };
 
             let inactivityTimeout;
@@ -67,8 +82,19 @@
             textElement.addEventListener('touchstart', revertToText);
             textElement.addEventListener('touchend', convertToEmoji);
 
-            document.addEventListener('touchstart', resetInactivityTimeout);
-            document.addEventListener('touchend', resetInactivityTimeout);
+            document.addEventListener('touchstart', (event) => {
+                if (event.target === document.body) {
+                    moveEmojiUp();
+                }
+                resetInactivityTimeout();
+            });
+
+            document.addEventListener('touchend', (event) => {
+                if (event.target === document.body) {
+                    resetEmojiPosition();
+                }
+                resetInactivityTimeout();
+            });
 
             convertToEmoji();
             resetInactivityTimeout();
