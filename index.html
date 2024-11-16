@@ -9,27 +9,26 @@
             font-family: 'Arial', sans-serif;
             overflow-x: hidden;
         }
+        .emoji, .hidden-text {
+            position: relative;
+            display: inline-block;
+        }
         .emoji {
             font-size: 2em;
-            position: absolute;
-            top: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            transition: top 2s ease-in-out;
+            transition: transform 2s ease-in-out;
         }
         .hidden-text {
             visibility: hidden;
         }
         .falling {
-            top: 90vh;
+            transform: translateY(75vh);
         }
     </style>
 </head>
 <body>
-    <h1 class="emoji">🪨</h1>
-    <p class="emoji">🪨 🪨 🪨 🪨 🪨</p>
-    <h1 class="hidden-text">안녕하세요, GitHub Pages!</h1>
-    <p class="hidden-text">이것은 코딩 없이 만든 웹사이트입니다.</p>
+    <h1><span class="emoji">🪨</span><span class="hidden-text">안녕하세요, GitHub Pages!</span></h1>
+    <p><span class="emoji">🪨</span> <span class="emoji">🪨</span> <span class="emoji">🪨</span> <span class="emoji">🪨</span> <span class="emoji">🪨</span></p>
+    <p><span class="hidden-text">이것은 코딩 없이 만든 웹사이트입니다.</span></p>
     <script>
         let timeout;
         const emojis = document.querySelectorAll('.emoji');
