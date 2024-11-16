@@ -8,17 +8,26 @@
         body {
             font-family: 'Arial', sans-serif;
         }
-        h1 {
-            font-family: 'Georgia', serif;
+        .hidden-text {
+            visibility: hidden;
         }
-        p {
-            font-family: 'Courier New', monospace;
+        .emoji {
+            font-size: 2em;
         }
     </style>
 </head>
 <body>
-    <h1>안녕하세요, GitHub Pages!</h1>
-    <p>이것은 코딩 없이 만든 웹사이트입니다.</p>
+    <h1 class="emoji">🪨</h1>
+    <p class="emoji">🪨 🪨 🪨 🪨 🪨</p>
+    <h1 class="hidden-text">안녕하세요, GitHub Pages!</h1>
+    <p class="hidden-text">이것은 코딩 없이 만든 웹사이트입니다.</p>
+    <script>
+        window.addEventListener('scroll', function() {
+            const emojis = document.querySelectorAll('.emoji');
+            const texts = document.querySelectorAll('.hidden-text');
+            emojis.forEach(emoji => emoji.style.display = 'none');
+            texts.forEach(text => text.style.visibility = 'visible');
+        });
+    </script>
 </body>
 </html>
-
