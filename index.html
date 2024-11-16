@@ -9,26 +9,28 @@
             font-family: 'Arial', sans-serif;
             overflow-x: hidden;
         }
-        .emoji, .hidden-text {
-            position: relative;
-            display: inline-block;
-        }
         .emoji {
             font-size: 2em;
-            transition: transform 2s ease-in-out;
+            position: absolute;
+            transition: top 2s ease-in-out;
         }
         .hidden-text {
             visibility: hidden;
         }
         .falling {
-            transform: translateY(75vh);
+            top: 75vh; /* 화면의 4분의 3 지점 */
+        }
+        .stack {
+            left: 50%;
+            transform: translateX(-50%);
         }
     </style>
 </head>
 <body>
-    <h1><span class="emoji">🪨</span><span class="hidden-text">안녕하세요, GitHub Pages!</span></h1>
-    <p><span class="emoji">🪨</span> <span class="emoji">🪨</span> <span class="emoji">🪨</span> <span class="emoji">🪨</span> <span class="emoji">🪨</span></p>
-    <p><span class="hidden-text">이것은 코딩 없이 만든 웹사이트입니다.</span></p>
+    <h1 class="emoji">🪨</h1>
+    <p class="emoji">🪨 🪨 🪨 🪨 🪨</p>
+    <h1 class="hidden-text">안녕하세요, GitHub Pages!</h1>
+    <p class="hidden-text">이것은 코딩 없이 만든 웹사이트입니다.</p>
     <script>
         let timeout;
         const emojis = document.querySelectorAll('.emoji');
@@ -37,7 +39,10 @@
         function resetTimeout() {
             clearTimeout(timeout);
             timeout = setTimeout(() => {
-                emojis.forEach(emoji => emoji.classList.add('falling'));
+                emojis.forEach(emoji => {
+                    emoji.classList.add('falling');
+                    emoji.classList.add('stack');
+                });
             }, 3000);
         }
 
